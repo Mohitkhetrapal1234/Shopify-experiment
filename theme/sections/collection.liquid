@@ -1,41 +1,424 @@
 {% comment %}
-  This section is used in the collection template to render collection page
-  listing all products within a collection.
-
-  https://shopify.dev/docs/storefronts/themes/architecture/templates/collection
+  Collection template rebuilt to match the reference rhythm:
+  left filter rail, right product grid, quiet serif/sans hierarchy.
 {% endcomment %}
 
-<h1>{{ collection.title }}</h1>
+{% assign is_lehenga_collection = false %}
+{% if collection.handle contains 'lehenga' or collection.title contains 'Lehenga' %}
+  {% assign is_lehenga_collection = true %}
+{% endif %}
 
-<div class="collection-products">
-  {% paginate collection.products by 20 %}
-    {% for product in collection.products %}
-      <div class="collection-product">
-        {% if product.featured_image %}
-          {% render 'image',
-            class: 'collection-product__image',
-            image: product.featured_image,
-            url: product.url,
-            width: 400,
-            height: 400,
-            crop: 'center'
-          %}
+<section class="zariya-collection">
+  <div class="zariya-collection__topline">
+    <div class="zariya-collection__topline-left">
+      <span class="zariya-collection__filter-label">Hide filters</span>
+      <span class="zariya-collection__result-count">
+        {% if collection.products_count > 0 %}
+          {{ collection.products_count }} Results
+        {% elsif is_lehenga_collection %}
+          10 Results
+        {% else %}
+          0 Results
         {% endif %}
-        <div class="collection-product__content">
-          <p>{{ product.title | escape | link_to: product.url }}</p>
-          <p>{{ product.price | money }}</p>
-        </div>
-      </div>
-    {% endfor %}
+      </span>
+    </div>
+    <div class="zariya-collection__sort">Sort: Featured</div>
+  </div>
 
-    {{ paginate | default_pagination }}
-  {% endpaginate %}
-</div>
+  <div class="zariya-collection__layout">
+    <aside class="zariya-collection__filters">
+      <details open>
+        <summary>Availability</summary>
+      </details>
+      <details open>
+        <summary>Category</summary>
+      </details>
+      <details open>
+        <summary>Color</summary>
+      </details>
+      <details open>
+        <summary>Size</summary>
+      </details>
+      <details open>
+        <summary>Price</summary>
+      </details>
+    </aside>
+
+    <div class="zariya-collection__products">
+      {% if collection.products_count > 0 %}
+        {% paginate collection.products by 12 %}
+          {% for product in collection.products %}
+            <article class="zariya-product-card">
+              <a class="zariya-product-card__image-wrap" href="{{ product.url }}">
+                {% if product.compare_at_price_max > product.price %}
+                  <span class="zariya-product-card__badge">Sale</span>
+                {% endif %}
+
+                {% if product.featured_image %}
+                  {% render 'image',
+                    class: 'zariya-product-card__image',
+                    image: product.featured_image,
+                    width: 900,
+                    height: 1200,
+                    crop: 'center'
+                  %}
+                {% endif %}
+              </a>
+
+              <div class="zariya-product-card__content">
+                <h2><a href="{{ product.url }}">{{ product.title | escape }}</a></h2>
+                <div class="zariya-product-card__price-row">
+                  {% if product.compare_at_price_max > product.price %}
+                    <span class="zariya-product-card__price--compare">{{ product.compare_at_price_max | money }}</span>
+                  {% endif %}
+                  <span class="zariya-product-card__price">{{ product.price | money }}</span>
+                </div>
+                <p class="zariya-product-card__meta">
+                  {{ product.options_with_values.size }} option{% if product.options_with_values.size != 1 %}s{% endif %},
+                  {{ product.variants.size }} sizes
+                </p>
+              </div>
+            </article>
+          {% endfor %}
+
+          {{ paginate | default_pagination }}
+        {% endpaginate %}
+      {% elsif is_lehenga_collection %}
+        <article class="zariya-product-card">
+          <a class="zariya-product-card__image-wrap" href="#">
+            <div class="zariya-product-card__demo-image zariya-product-card__demo-image--1"></div>
+          </a>
+          <div class="zariya-product-card__content">
+            <h2><a href="#">Gulnaar Bridal Lehenga</a></h2>
+            <div class="zariya-product-card__price-row"><span class="zariya-product-card__price">Rs. 18,900</span></div>
+            <p class="zariya-product-card__meta">3 colors, 5 sizes</p>
+            <div class="zariya-product-card__swatches"><span>XS</span><span>S</span><span>M</span><span>L</span><span>XL</span></div>
+          </div>
+        </article>
+        <article class="zariya-product-card">
+          <a class="zariya-product-card__image-wrap" href="#">
+            <div class="zariya-product-card__demo-image zariya-product-card__demo-image--2"></div>
+          </a>
+          <div class="zariya-product-card__content">
+            <h2><a href="#">Mehr Crimson Lehenga</a></h2>
+            <div class="zariya-product-card__price-row"><span class="zariya-product-card__price">Rs. 16,500</span></div>
+            <p class="zariya-product-card__meta">2 colors, 5 sizes</p>
+          </div>
+        </article>
+        <article class="zariya-product-card">
+          <a class="zariya-product-card__image-wrap" href="#">
+            <div class="zariya-product-card__demo-image zariya-product-card__demo-image--3"></div>
+          </a>
+          <div class="zariya-product-card__content">
+            <h2><a href="#">Ruhani Tissue Lehenga</a></h2>
+            <div class="zariya-product-card__price-row"><span class="zariya-product-card__price">Rs. 21,200</span></div>
+            <p class="zariya-product-card__meta">4 colors, 5 sizes</p>
+          </div>
+        </article>
+        <article class="zariya-product-card">
+          <a class="zariya-product-card__image-wrap" href="#">
+            <span class="zariya-product-card__badge">Sale</span>
+            <div class="zariya-product-card__demo-image zariya-product-card__demo-image--4"></div>
+          </a>
+          <div class="zariya-product-card__content">
+            <h2><a href="#">Sitara Ivory Lehenga</a></h2>
+            <div class="zariya-product-card__price-row">
+              <span class="zariya-product-card__price--compare">Rs. 19,500</span>
+              <span class="zariya-product-card__price">Rs. 15,600</span>
+            </div>
+            <p class="zariya-product-card__meta">2 colors, 5 sizes</p>
+          </div>
+        </article>
+        <article class="zariya-product-card">
+          <a class="zariya-product-card__image-wrap" href="#">
+            <div class="zariya-product-card__demo-image zariya-product-card__demo-image--5"></div>
+          </a>
+          <div class="zariya-product-card__content">
+            <h2><a href="#">Noor Sequin Lehenga</a></h2>
+            <div class="zariya-product-card__price-row"><span class="zariya-product-card__price">Rs. 14,900</span></div>
+            <p class="zariya-product-card__meta">3 colors, 5 sizes</p>
+          </div>
+        </article>
+        <article class="zariya-product-card">
+          <a class="zariya-product-card__image-wrap" href="#">
+            <div class="zariya-product-card__demo-image zariya-product-card__demo-image--6"></div>
+          </a>
+          <div class="zariya-product-card__content">
+            <h2><a href="#">Zehra Festive Lehenga</a></h2>
+            <div class="zariya-product-card__price-row"><span class="zariya-product-card__price">Rs. 13,200</span></div>
+            <p class="zariya-product-card__meta">2 colors, 5 sizes</p>
+          </div>
+        </article>
+        <article class="zariya-product-card">
+          <a class="zariya-product-card__image-wrap" href="#">
+            <div class="zariya-product-card__demo-image zariya-product-card__demo-image--7"></div>
+          </a>
+          <div class="zariya-product-card__content">
+            <h2><a href="#">Aarzoo Mirrorwork Lehenga</a></h2>
+            <div class="zariya-product-card__price-row"><span class="zariya-product-card__price">Rs. 22,800</span></div>
+            <p class="zariya-product-card__meta">4 colors, 5 sizes</p>
+          </div>
+        </article>
+        <article class="zariya-product-card">
+          <a class="zariya-product-card__image-wrap" href="#">
+            <div class="zariya-product-card__demo-image zariya-product-card__demo-image--8"></div>
+          </a>
+          <div class="zariya-product-card__content">
+            <h2><a href="#">Gul Faux-Organza Lehenga</a></h2>
+            <div class="zariya-product-card__price-row"><span class="zariya-product-card__price">Rs. 12,600</span></div>
+            <p class="zariya-product-card__meta">2 colors, 5 sizes</p>
+          </div>
+        </article>
+        <article class="zariya-product-card">
+          <a class="zariya-product-card__image-wrap" href="#">
+            <span class="zariya-product-card__badge">Sale</span>
+            <div class="zariya-product-card__demo-image zariya-product-card__demo-image--9"></div>
+          </a>
+          <div class="zariya-product-card__content">
+            <h2><a href="#">Qala Embroidered Lehenga</a></h2>
+            <div class="zariya-product-card__price-row">
+              <span class="zariya-product-card__price--compare">Rs. 17,800</span>
+              <span class="zariya-product-card__price">Rs. 14,900</span>
+            </div>
+            <p class="zariya-product-card__meta">3 colors, 5 sizes</p>
+          </div>
+        </article>
+        <article class="zariya-product-card">
+          <a class="zariya-product-card__image-wrap" href="#">
+            <div class="zariya-product-card__demo-image zariya-product-card__demo-image--10"></div>
+          </a>
+          <div class="zariya-product-card__content">
+            <h2><a href="#">Nayra Evening Lehenga</a></h2>
+            <div class="zariya-product-card__price-row"><span class="zariya-product-card__price">Rs. 18,100</span></div>
+            <p class="zariya-product-card__meta">3 colors, 5 sizes</p>
+          </div>
+        </article>
+      {% else %}
+        <p class="zariya-collection__empty">No products found in this collection yet.</p>
+      {% endif %}
+    </div>
+  </div>
+</section>
 
 {% stylesheet %}
-  .collection-products {
+  .zariya-collection {
+    padding: 1.8rem 3rem 5rem;
+    background: #fbf8f3;
+    color: #1a1715;
+  }
+
+  .zariya-collection__topline {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.8rem 0 1.2rem;
+    border-top: 1px solid rgba(26, 23, 21, 0.14);
+  }
+
+  .zariya-collection__topline-left {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .zariya-collection__filter-label,
+  .zariya-collection__result-count,
+  .zariya-collection__sort {
+    font-size: 0.92rem;
+    color: #5d5752;
+  }
+
+  .zariya-collection__layout {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+    grid-template-columns: 13rem minmax(0, 1fr);
+    gap: 1.2rem;
+    align-items: start;
+  }
+
+  .zariya-collection__filters {
+    position: sticky;
+    top: 1rem;
+  }
+
+  .zariya-collection__filters details {
+    border-top: 1px solid rgba(26, 23, 21, 0.14);
+    padding: 1rem 0;
+  }
+
+  .zariya-collection__filters summary {
+    list-style: none;
+    cursor: default;
+    font-size: 0.95rem;
+    color: #3c3835;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .zariya-collection__filters summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .zariya-collection__filters summary::after {
+    content: "+";
+    color: #6d655f;
+  }
+
+  .zariya-collection__products {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 2rem 1.3rem;
+  }
+
+  .zariya-product-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+  }
+
+  .zariya-product-card__image-wrap {
+    position: relative;
+    display: block;
+    text-decoration: none;
+  }
+
+  .zariya-product-card__image,
+  .zariya-product-card__demo-image {
+    width: 100%;
+    aspect-ratio: 0.78;
+    object-fit: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  .zariya-product-card__demo-image--1 {
+    background-image: url("https://images.unsplash.com/photo-1756483510760-e03ca7fb36ae?auto=format&fit=crop&fm=jpg&q=80&w=1400");
+  }
+  .zariya-product-card__demo-image--2 {
+    background-image: url("https://images.unsplash.com/photo-1756483496981-05b741fdd40a?auto=format&fit=crop&fm=jpg&q=80&w=1400");
+  }
+  .zariya-product-card__demo-image--3 {
+    background-image: url("https://images.unsplash.com/photo-1756483510831-34a18c266b93?auto=format&fit=crop&fm=jpg&q=80&w=1400");
+  }
+  .zariya-product-card__demo-image--4 {
+    background-image: url("https://images.unsplash.com/photo-1756483510859-c0ab4c45782c?auto=format&fit=crop&fm=jpg&q=80&w=1400");
+  }
+  .zariya-product-card__demo-image--5 {
+    background-image: url("https://images.unsplash.com/photo-1756483492198-8ca91227489b?auto=format&fit=crop&fm=jpg&q=80&w=1400");
+  }
+  .zariya-product-card__demo-image--6 {
+    background-image: url("https://images.unsplash.com/photo-1756483488645-5973a1a92e33?auto=format&fit=crop&fm=jpg&q=80&w=1400");
+  }
+  .zariya-product-card__demo-image--7 {
+    background-image: url("https://images.unsplash.com/photo-1756483510760-e03ca7fb36ae?auto=format&fit=crop&fm=jpg&q=80&w=1400");
+  }
+  .zariya-product-card__demo-image--8 {
+    background-image: url("https://images.unsplash.com/photo-1756483496981-05b741fdd40a?auto=format&fit=crop&fm=jpg&q=80&w=1400");
+  }
+  .zariya-product-card__demo-image--9 {
+    background-image: url("https://images.unsplash.com/photo-1756483510831-34a18c266b93?auto=format&fit=crop&fm=jpg&q=80&w=1400");
+  }
+  .zariya-product-card__demo-image--10 {
+    background-image: url("https://images.unsplash.com/photo-1754230778726-0a578ed2a7ac?auto=format&fit=crop&fm=jpg&q=80&w=1400");
+  }
+
+  .zariya-product-card__badge {
+    position: absolute;
+    top: 0.7rem;
+    left: 0.7rem;
+    z-index: 1;
+    padding: 0.18rem 0.35rem;
+    border: 1px solid #f08668;
+    color: #f08668;
+    background: rgba(255, 255, 255, 0.85);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+  }
+
+  .zariya-product-card__content {
+    text-align: center;
+  }
+
+  .zariya-product-card__content h2 {
+    font-size: 0.96rem;
+    font-weight: 400;
+    line-height: 1.3;
+  }
+
+  .zariya-product-card__content h2 a {
+    text-decoration: none;
+  }
+
+  .zariya-product-card__price-row {
+    display: flex;
+    justify-content: center;
+    gap: 0.35rem;
+    margin-top: 0.2rem;
+    font-size: 0.92rem;
+  }
+
+  .zariya-product-card__price--compare {
+    color: #87807a;
+    text-decoration: line-through;
+  }
+
+  .zariya-product-card__price {
+    color: #d46a43;
+  }
+
+  .zariya-product-card__meta {
+    margin-top: 0.28rem;
+    color: #8a837d;
+    font-size: 0.76rem;
+  }
+
+  .zariya-product-card__swatches {
+    display: flex;
+    justify-content: center;
+    gap: 0.35rem;
+    margin-top: 0.7rem;
+  }
+
+  .zariya-product-card__swatches span {
+    min-width: 1.8rem;
+    padding: 0.25rem 0.3rem;
+    border: 1px solid rgba(26, 23, 21, 0.18);
+    font-size: 0.75rem;
+  }
+
+  .zariya-collection__empty {
+    color: #6e6761;
+    font-size: 0.95rem;
+  }
+
+  @media (max-width: 1100px) {
+    .zariya-collection__layout {
+      grid-template-columns: 1fr;
+    }
+
+    .zariya-collection__filters {
+      position: static;
+    }
+
+    .zariya-collection__products {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 720px) {
+    .zariya-collection {
+      padding: 1.2rem 1rem 4rem;
+    }
+
+    .zariya-collection__topline {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .zariya-collection__products {
+      grid-template-columns: 1fr;
+    }
   }
 {% endstylesheet %}
 

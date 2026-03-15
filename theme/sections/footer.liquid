@@ -4,7 +4,7 @@
     <p>
       &copy;
       {{ 'now' | date: '%Y' }}
-      {{ shop.name | link_to: routes.root_url }}
+      {{ settings.brand_name | default: shop.name | link_to: routes.root_url }}
     </p>
   </div>
 
@@ -53,6 +53,7 @@
 
   .footer__links {
     flex-wrap: wrap;
+    align-content: start;
   }
 
   .footer__payment {

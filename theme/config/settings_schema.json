@@ -58,32 +58,38 @@
     "settings": [
       {
         "type": "text",
+        "id": "brand_name",
+        "label": "Brand name",
+        "default": "Zariya"
+      },
+      {
+        "type": "text",
         "id": "brand_kicker",
         "label": "Brand kicker",
-        "default": "Premium ethnic womenswear"
+        "default": "Modern heirlooms for celebration"
       },
       {
         "type": "color",
         "id": "background_color",
-        "default": "#f7f1e8",
+        "default": "#f5efe8",
         "label": "Background"
       },
       {
         "type": "color",
         "id": "foreground_color",
-        "default": "#241715",
+        "default": "#201614",
         "label": "Foreground"
       },
       {
         "type": "color",
         "id": "accent_color",
-        "default": "#9f6b2e",
+        "default": "#9a6c3c",
         "label": "Accent"
       },
       {
         "type": "color",
         "id": "surface_color",
-        "default": "#efe2d2",
+        "default": "#e6d6c6",
         "label": "Surface"
       },
       {
