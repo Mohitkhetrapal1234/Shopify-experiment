@@ -1,0 +1,18 @@
+{
+  "name": "shopify-experiment",
+  "version": "1.0.0",
+  "description": "This repo is the local working directory for a test Shopify build focused on premium ethnic Indian womenswear.",
+  "scripts": {
+    "dev": "shopify theme dev --path theme",
+    "pull": "shopify theme pull --path theme",
+    "push": "shopify theme push --path theme",
+    "check": "shopify theme check --path theme"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "private": true,
+  "devDependencies": {
+    "@shopify/cli": "^3.92.1"
+  }
+}

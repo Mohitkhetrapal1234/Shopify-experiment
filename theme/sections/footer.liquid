@@ -1,0 +1,91 @@
+<footer>
+  <div class="footer__copyright">
+    <p class="footer__kicker">Craft-led occasionwear</p>
+    <p>
+      &copy;
+      {{ 'now' | date: '%Y' }}
+      {{ shop.name | link_to: routes.root_url }}
+    </p>
+  </div>
+
+  <div class="footer__links">
+    {% for link in section.settings.menu.links %}
+      {{ link.title | link_to: link.url }}
+    {% endfor %}
+  </div>
+
+  <div class="footer__payment">
+    {% if section.settings.show_payment_icons %}
+      {% for type in shop.enabled_payment_types %}
+        {{ type | payment_type_svg_tag }}
+      {% endfor %}
+    {% endif %}
+  </div>
+</footer>
+
+{% stylesheet %}
+  footer {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr 1fr;
+    gap: 1rem;
+    margin-top: 4rem;
+    padding: 2rem 0 3rem;
+    border-top: 1px solid color-mix(in srgb, var(--color-foreground) 12%, transparent);
+  }
+  footer a {
+    text-decoration: none;
+    color: var(--color-foreground);
+  }
+
+  .footer__kicker {
+    color: var(--color-accent);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 0.72rem;
+    margin-bottom: 0.5rem;
+  }
+
+  footer .footer__links,
+  footer .footer__payment {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .footer__links {
+    flex-wrap: wrap;
+  }
+
+  .footer__payment {
+    justify-content: flex-end;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 860px) {
+    footer {
+      grid-template-columns: 1fr;
+    }
+
+    .footer__payment {
+      justify-content: flex-start;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.footer",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "t:labels.menu"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_payment_icons",
+      "label": "t:labels.show_payment_icons",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

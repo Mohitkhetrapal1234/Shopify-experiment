@@ -1,0 +1,202 @@
+<section class="atelier-home full-width">
+  <div class="atelier-home__hero">
+    <div class="atelier-home__copy">
+      <p class="atelier-home__eyebrow">{{ section.settings.eyebrow }}</p>
+      <h1>{{ section.settings.heading }}</h1>
+      <p class="atelier-home__lede">{{ section.settings.description }}</p>
+
+      <div class="atelier-home__actions">
+        <a class="button" href="{{ section.settings.primary_link | default: routes.all_products_collection_url }}">
+          {{ section.settings.primary_label }}
+        </a>
+        <a class="button button--secondary" href="{{ section.settings.secondary_link | default: routes.collections_url }}">
+          {{ section.settings.secondary_label }}
+        </a>
+      </div>
+    </div>
+
+    <div class="atelier-home__panel">
+      <p class="atelier-home__panel-label">Signature edits</p>
+      <ul>
+        <li>Bridal lehengas in hand embroidery</li>
+        <li>Silk sarees for festive dressing</li>
+        <li>Sharara and kurta sets for intimate events</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="atelier-home__grid">
+    <article class="atelier-home__card">
+      <p class="atelier-home__card-label">Wedding edit</p>
+      <h2>Looks crafted for sangeet, mehendi, and reception nights</h2>
+      <p>Build high-intent collection pages around ceremonies instead of generic product categories.</p>
+    </article>
+
+    <article class="atelier-home__card">
+      <p class="atelier-home__card-label">Material story</p>
+      <h2>Lead with silk, organza, tissue, velvet, and artisanal surface work</h2>
+      <p>Use metafields to surface fabric, craft, lining, care, and delivery lead times clearly.</p>
+    </article>
+
+    <article class="atelier-home__card atelier-home__card--accent">
+      <p class="atelier-home__card-label">Build next</p>
+      <h2>Collections, product templates, and styling-led merchandising</h2>
+      <p>Add navigation for occasion, silhouette, and craftsmanship once the dev store is connected.</p>
+    </article>
+  </div>
+</section>
+
+{% stylesheet %}
+  .atelier-home {
+    padding: 0 0 4rem;
+    background:
+      radial-gradient(circle at top left, color-mix(in srgb, var(--color-accent) 16%, transparent), transparent 34%),
+      linear-gradient(180deg, color-mix(in srgb, var(--color-surface) 65%, white), var(--color-background));
+  }
+
+  .atelier-home__hero {
+    min-height: 68svh;
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(18rem, 0.8fr);
+    gap: 2rem;
+    align-items: end;
+    padding: clamp(3rem, 7vw, 6rem) 0 2rem;
+  }
+
+  .atelier-home__copy h1 {
+    max-width: 11ch;
+    font-size: clamp(3rem, 8vw, 6.4rem);
+    line-height: 0.96;
+    letter-spacing: -0.04em;
+  }
+
+  .atelier-home__eyebrow,
+  .atelier-home__panel-label,
+  .atelier-home__card-label {
+    margin-bottom: 1rem;
+    color: var(--color-accent);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+  }
+
+  .atelier-home__lede {
+    max-width: 48rem;
+    margin-top: 1.5rem;
+    font-size: 1.08rem;
+  }
+
+  .atelier-home__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-top: 2rem;
+  }
+
+  .atelier-home__panel {
+    padding: 1.5rem;
+    border-radius: 1.5rem;
+    background: color-mix(in srgb, var(--color-foreground) 92%, black);
+    color: #f7f0e8;
+    box-shadow: 0 24px 60px rgba(36, 23, 21, 0.18);
+  }
+
+  .atelier-home__panel ul {
+    display: grid;
+    gap: 0.9rem;
+    padding-left: 1.2rem;
+  }
+
+  .atelier-home__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .atelier-home__card {
+    min-height: 16rem;
+    padding: 1.5rem;
+    border-radius: 1.5rem;
+    background: rgba(255, 255, 255, 0.62);
+    backdrop-filter: blur(12px);
+  }
+
+  .atelier-home__card h2 {
+    font-size: clamp(1.4rem, 2.8vw, 2rem);
+    line-height: 1.05;
+  }
+
+  .atelier-home__card p:last-child {
+    margin-top: 1rem;
+  }
+
+  .atelier-home__card--accent {
+    background: var(--color-accent);
+    color: #fff8f0;
+  }
+
+  .atelier-home__card--accent .atelier-home__card-label {
+    color: #fff8f0;
+  }
+
+  @media (max-width: 960px) {
+    .atelier-home__hero,
+    .atelier-home__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Luxury homepage",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Luxury Indian occasionwear"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "A premium storefront for modern heirloom dressing"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Start with an editorial homepage, occasion-led collections, and product storytelling built around fabric, craft, and celebration."
+    },
+    {
+      "type": "text",
+      "id": "primary_label",
+      "label": "Primary button label",
+      "default": "Shop the wedding edit"
+    },
+    {
+      "type": "url",
+      "id": "primary_link",
+      "label": "Primary button link"
+    },
+    {
+      "type": "text",
+      "id": "secondary_label",
+      "label": "Secondary button label",
+      "default": "Browse collections"
+    },
+    {
+      "type": "url",
+      "id": "secondary_link",
+      "label": "Secondary button link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Luxury homepage",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}
